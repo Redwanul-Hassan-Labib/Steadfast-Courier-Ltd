@@ -7,26 +7,41 @@ import { CartContext } from "@/contaxt/CartContext";
 
 
 export default function ProductGrid() {
+ 
+  // const [loading, setLoading] = useState(true);
+
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  console.log(products);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await fetch('http://157.230.240.97:9999/api/v1/shop/products');
-        const data = await res.json();
-        setProducts(data?.data || []);
-      } catch (err) {
-        console.error('Failed to fetch products:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
+    fetch("/api/products")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Home  page product",data); // Optional: দেখতে পারেন কী আসছে
+        setProducts(data.data); // যদি "products" নামে আসছে
+      })
+      .catch((err) => {
+        console.error("Error loading products:", err);
+      });
   }, []);
 
-  if (loading) return <div className="text-center py-10 text-gray-500">loading...</div>;
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     try {
+  //       const res = await fetch('http://157.230.240.97:9999/api/v1/shop/products');
+  //       const data = await res.json();
+  //       setProducts(data?.data || []);
+  //     } catch (err) {
+  //       console.error('Failed to fetch products:', err);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchProducts();
+  // }, []);
+
+  // if (loading) return <div className="text-center py-10 text-gray-500">loading...</div>;
 
   //  const { addToCart } = useContext(CartContext);
 

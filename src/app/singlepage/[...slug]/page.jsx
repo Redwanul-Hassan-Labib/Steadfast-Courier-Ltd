@@ -47,6 +47,21 @@ const ProductPage = ({params}) => {
 
   // set a  api section
 
+  // const [products, setProducts] = useState([]);
+  // console.log(products);
+
+  // useEffect(() => {
+  //   fetch("/src/app/api/single")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data.data); // Optional: দেখতে পারেন কী আসছে
+  //       setProducts(data.data); // যদি "products" নামে আসছে
+  //     })
+  //     .catch((err) => {
+  //       console.error("Error loading products:", err);
+  //     });
+  // }, []);
+
   const [product, setProduct] = useState(null);
   console.log(product)
     const [loading, setLoading] = useState(true);

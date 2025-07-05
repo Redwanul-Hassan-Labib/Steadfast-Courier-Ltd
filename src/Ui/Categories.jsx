@@ -2,44 +2,59 @@
 import { useEffect, useState } from 'react';
 
 export default function CategoryProductLoader() {
-  const [categories, setCategories] = useState([]);
+  // const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
+  // const [products, setProducts] = useState([]);
+  // const [loading, setLoading] = useState(false);
 
-  // Load categories
+  const [products, setProducts] = useState([]);
+  console.log(products);
+
   useEffect(() => {
-    fetch('http://157.230.240.97:9999/api/v1/categories')
+    fetch("/src/app/api/categories")
       .then((res) => res.json())
-      .then((item) => {
-        // Safely extract array from response
-        const list = Array.isArray(item) ? item : item.data || [];
-        setCategories(list);
-        // console.log('Categories response:', item);
-        // console.log('Categories response:', list);
+      .then((data) => {
+        console.log(data.data); // Optional: দেখতে পারেন কী আসছে
+        setProducts(data.data); // যদি "products" নামে আসছে
       })
       .catch((err) => {
-        console.error('Error loading categories:', err);
-        setCategories([]);
+        console.error("Error loading products:", err);
       });
   }, []);
 
-  // Load products for selected category
-  useEffect(() => {
-    if (selectedCategory) {
-      setLoading(true);
-      fetch(`http://157.230.240.97:9999/api/v1/shop/products?category=${selectedCategory}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setProducts(Array.isArray(data) ? data : []);
-          setLoading(false);
-        })
-        .catch((err) => {
-          console.error('Error loading products:', err);
-          setLoading(false);
-        });
-    }
-  }, [selectedCategory]);
+  // Load categories
+  // useEffect(() => {
+  //   fetch('http://157.230.240.97:9999/api/v1/categories')
+  //     .then((res) => res.json())
+  //     .then((item) => {
+  //       // Safely extract array from response
+  //       const list = Array.isArray(item) ? item : item.data || [];
+  //       setCategories(list);
+  //       // console.log('Categories response:', item);
+  //       // console.log('Categories response:', list);
+  //     })
+  //     .catch((err) => {
+  //       console.error('Error loading categories:', err);
+  //       setCategories([]);
+  //     });
+  // }, []);
+
+  // // Load products for selected category
+  // useEffect(() => {
+  //   if (selectedCategory) {
+  //     setLoading(true);
+  //     fetch(`http://157.230.240.97:9999/api/v1/shop/products?category=${selectedCategory}`)
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         setProducts(Array.isArray(data) ? data : []);
+  //         setLoading(false);
+  //       })
+  //       .catch((err) => {
+  //         console.error('Error loading products:', err);
+  //         setLoading(false);
+  //       });
+  //   }
+  // }, [selectedCategory]);
 
   return (
     <div className="p-6 max-w-7xl mx-auto text-[#000]">
