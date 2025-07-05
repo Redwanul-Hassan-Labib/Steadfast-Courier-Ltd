@@ -1,5 +1,6 @@
 "use client";
-import React, { use, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "next/navigation"
 
 import { MdArrowForwardIos } from "react-icons/md";
 import { FaStar } from "react-icons/fa";
@@ -22,10 +23,10 @@ import { CartContext } from "@/contaxt/CartContext";
 import DescriptionBox from "@/Ui/DescriptionBox";
 
 
-const ProductPage = ({params}) => {
-  const { slug } = use(params)
-  const productSlug = slug[0]
-  console.log(productSlug)
+const ProductPage = () => {
+  // const { slug } = use(params)
+  // const productSlug = slug[0]
+  // console.log(productSlug)
   const [quantity, setQuantity] = useState(0);
   const [selectedSize, setSelectedSize] = useState("XS");
 
@@ -47,45 +48,111 @@ const ProductPage = ({params}) => {
 
   // set a  api section
 
-  // const [products, setProducts] = useState([]);
-  // console.log(products);
-
-  // useEffect(() => {
-  //   fetch("/src/app/api/single")
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data.data); // Optional: দেখতে পারেন কী আসছে
-  //       setProducts(data.data); // যদি "products" নামে আসছে
-  //     })
-  //     .catch((err) => {
-  //       console.error("Error loading products:", err);
-  //     });
-  // }, []);
+  const params = useParams();
+  const slug = params.slug;
 
   const [product, setProduct] = useState(null);
-  console.log(product)
-    const [loading, setLoading] = useState(true);
-  
-    useEffect(() => {
-      const fetchProduct = async () => {
-        try {
-          const res = await fetch(`http://157.230.240.97:9999/api/v1/product/${productSlug}`);
-          // const res = await fetch("157.230.240.97:9999/api/v1/product/iphone-15-plus");
-          const data = await res.json();
-          console.log(data)
-          setProduct(data?.data);
-        } catch (error) {
-          console.error('Error fetching product:', error);
-        } finally {
-          setLoading(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      if (!slug) {
+        setError("No product slug provided");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await fetch(
+          `/api/products/${slug}`
+        );
+
+        if (!response.ok) {
+          if (response.status === 404) {
+            throw new Error("Product not found");
+          }
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
-      };
+
+        const data = await response.json();
+        console.log("Product data:", data);
+        setProduct(data.data);
+      } catch (err) {
+        console.error("Error fetching product:", err);
+        setError(
+          err instanceof Error ? err.message : "An unknown error occurred"
+        );
+        setProduct(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [slug]); // Re-fetch if slug changes
+
+  if (loading) {
+    return (
+      <div style={{ padding: "20px" }}>
+        <h1>Loading Product...</h1>
+        <p>
+          Fetching product with slug: <strong>{slug}</strong>
+        </p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div style={{ padding: "20px" }}>
+        <h1>Error</h1>
+        <div style={{ color: "red", marginBottom: "20px" }}>{error}</div>
+        <p>
+          Slug: <strong>{slug}</strong>
+        </p>
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div style={{ padding: "20px" }}>
+        <h1>No Product Found</h1>
+        <p>
+          Slug: <strong>{slug}</strong>
+        </p>
+      </div>
+    );
+  }
+
+  // const [product, setProduct] = useState(null);
+  // console.log(product)
+  //   const [loading, setLoading] = useState(true);
   
-      fetchProduct();
-    }, []);
+  //   useEffect(() => {
+  //     const fetchProduct = async () => {
+  //       try {
+  //         const res = await fetch(`http://157.230.240.97:9999/api/v1/product/${productSlug}`);
+  //         // const res = await fetch("157.230.240.97:9999/api/v1/product/iphone-15-plus");
+  //         const data = await res.json();
+  //         console.log(data)
+  //         setProduct(data?.data);
+  //       } catch (error) {
+  //         console.error('Error fetching product:', error);
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     };
   
-    if (loading) return <div className="text-center py-10 text-gray-500">Loading...</div>;
-    if (!product) return <div className="text-center py-10 text-red-500">Product not found</div>;
+  //     fetchProduct();
+  //   }, []);
+  
+  //   if (loading) return <div className="text-center py-10 text-gray-500">Loading...</div>;
+  //   if (!product) return <div className="text-center py-10 text-red-500">Product not found</div>;
 
   return (
     <>
