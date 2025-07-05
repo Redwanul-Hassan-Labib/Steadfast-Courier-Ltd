@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  /* Breakpoints */
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1100px;
+  --breakpoint-2xl: 1200px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #f1f5f9;
+    --foreground: #ededed;
+  }
+}
+@layer base {
+  input::placeholder,
+  textarea::placeholder {
+    color: #475569;
+    /* padding-left:16px ; */
+    font-style: 24px;
+    line-height: 24px;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  /* font-family: var(--font-onest-mono) !important; */
+}
+
+.navbox{
+  box-shadow: 0 , 3px , 8px, -2px, rgba(15, 28, 51, 0.10); 
+  box-shadow: 0 , 2px , 4px, -4px , rgba(15, 28, 51, 0.04);
+}
