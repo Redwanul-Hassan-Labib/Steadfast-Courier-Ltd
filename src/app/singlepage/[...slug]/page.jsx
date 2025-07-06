@@ -180,11 +180,11 @@ const ProductPage = () => {
             />
             <div className="pt-4 flex gap-2 flex-wrap justify-center sm:justify-start">
               {[...Array(5)].map((_, id) => (
-                <img
+                <Image
                   key={id}
                   src={product.thumbnail}
                   alt="product image"
-                  className="rounded w-14 h-14 object-cover"
+                  className="rounded w-14 h-14 object-cover" width={56} height={56}
                 />
               ))}
             </div>
