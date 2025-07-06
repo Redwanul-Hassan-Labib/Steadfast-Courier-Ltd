@@ -173,7 +173,7 @@ const ProductPage = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[380px_auto_313px] pt-6 gap-6">
           <div>
-            <img
+            <Image
               src={product.thumbnail}
               alt="product image" width={60} height={60}
               className="rounded w-full"

@@ -8,6 +8,7 @@ import { CiShop } from "react-icons/ci";
 import { IoIosArrowForward } from "react-icons/io";
 import { TbCurrencyTaka } from 'react-icons/tb';
 import { RiDeleteBinLine } from "react-icons/ri";
+import Image from 'next/image';
 
 const CartPage = () => {
   const { cartItems, setCartItems, removeFromCart } = useCart();
@@ -110,7 +111,7 @@ const CartPage = () => {
                     checked={selectedItems.includes(cart.id)}
                     onChange={() => toggleItemSelection(cart.id)}
                   />
-                  <img src={cart.thumbnail} alt='product' width={100} height={100} className='rounded-[8px]' />
+                  <Image src={cart.thumbnail} alt='product' width={100} height={100} className='rounded-[8px]' />
                   <div className='w-full sm:w-auto text-center sm:text-left'>
                     <h4 className='text-[#0F172A] text-[16px] font-medium'>{cart.name}</h4>
                     <p className='text-[#475569] text-[16px] py-[10px]'>Color: <span>Red</span>; Size: <span>M</span></p>

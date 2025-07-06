@@ -4,6 +4,7 @@ import Container from '@/Ui/Container';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { CartContext } from "@/contaxt/CartContext";
+import Image from 'next/image';
 
 
 export default function ProductGrid() {
@@ -52,10 +53,10 @@ export default function ProductGrid() {
     <div  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
       {products.map((product) => (
         <div key={product.id} className="bg-white shadow-md rounded-2xl overflow-hidden hover:shadow-xl transition duration-300">
-          <img
+          <Image
             src={product.thumbnail}
-            alt={product.title}
-            className="w-full h-[300px] object-cover"
+            alt="image"
+            className=" object-cover" width={300} height={300}
           />
           <div className="p-4">
             <Link href={`/singlepage/${product.slug}`}>
