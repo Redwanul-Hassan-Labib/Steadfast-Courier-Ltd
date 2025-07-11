@@ -1,21 +1,22 @@
 'use client';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 export default function CategoryProductLoader() {
-  // const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   // const [products, setProducts] = useState([]);
   // const [loading, setLoading] = useState(false);
 
-  const [products, setProducts] = useState([]);
-  console.log(products);
+  // const [products, setProducts] = useState([]);
+  // console.log(products);
 
   useEffect(() => {
     fetch("/src/app/api/categories")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.data); // Optional: দেখতে পারেন কী আসছে
-        setProducts(data.data); // যদি "products" নামে আসছে
+        console.log(data.data); 
+        setCategories(data.data); 
       })
       .catch((err) => {
         console.error("Error loading products:", err);
@@ -91,10 +92,11 @@ export default function CategoryProductLoader() {
                 key={product._id}
                 className="border rounded-lg p-4 shadow hover:shadow-lg transition duration-300"
               >
-                <img
-                  src={product?.mainImage || '/no-image.png'}
+                <Image
+                  src={product?.image}
                   alt={product.name}
                   className="w-full h-48 object-cover rounded"
+                  width={48} height={48}
                 />
                 <h3 className="mt-2 font-semibold">{product.name}</h3>
                 <p className="text-green-600 font-bold">৳ {product.price}</p>

@@ -2,7 +2,7 @@
 'use client';
 import Container from '@/Ui/Container';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { CartContext } from "@/contaxt/CartContext";
 import Image from 'next/image';
 
@@ -10,6 +10,7 @@ import Image from 'next/image';
 export default function ProductGrid() {
  
   // const [loading, setLoading] = useState(true);
+  const { addToCart } = useContext(CartContext);
 
   const [products, setProducts] = useState([]);
   console.log(products);
@@ -18,37 +19,48 @@ export default function ProductGrid() {
     fetch("/api/products")
       .then((res) => res.json())
       .then((data) => {
-        console.log("Home  page product",data); // Optional: দেখতে পারেন কী আসছে
-        setProducts(data.data); // যদি "products" নামে আসছে
+        console.log("Home  page product",data); 
+        setProducts(data.data); 
       })
       .catch((err) => {
         console.error("Error loading products:", err);
       });
   }, []);
 
-  // useEffect(() => {
-  //   const fetchProducts = async () => {
-  //     try {
-  //       const res = await fetch('http://157.230.240.97:9999/api/v1/shop/products');
-  //       const data = await res.json();
-  //       setProducts(data?.data || []);
-  //     } catch (err) {
-  //       console.error('Failed to fetch products:', err);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
 
-  //   fetchProducts();
-  // }, []);
+  const [categories, setCategories] = useState([]);
 
-  // if (loading) return <div className="text-center py-10 text-gray-500">loading...</div>;
+  console.log("Categry Items:", categories)
 
-  //  const { addToCart } = useContext(CartContext);
+  useEffect(() => {
+      fetch('http://157.230.240.97:9999/api/v1/categories')
+        .then((res) => res.json())
+        .then((item) => {
+          // Safely extract array from response
+          const list = Array.isArray(item) ? item : item.data || [];
+          setCategories(list);
+        })
+        .catch((err) => {
+          console.error('Error loading categories:', err);
+          setCategories([]);
+        });
+    }, []);
 
   return (
     <Container>
 
+      <div className='py-[50px]'>
+        <h3 className='text-[#000] pb-3 text-[30px] font-medium leading-9'>Categories  Items</h3>
+        <div className='flex items-center flex-wrap justify-around gap-5  cursor-pointer text-[#000]'>
+        {Array.isArray(categories) &&
+            categories?.map((cat) => (
+              <div key={cat.id} value={cat.name} className='w-[190px] h-[150px] border py-[10px] px-[20px]  flex flex-col justify-center items-center' >
+               <h2> {cat.name}</h2>
+               <Image src={cat.image} alt='image' width={70} height={70}/>
+              </div>
+            ))}
+      </div> 
+      </div>
 
     <div  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
       {products.map((product) => (

@@ -78,7 +78,7 @@ const NavBar = () => {
               <FaBars className="text-[#00A788] text-lg" />
               <h4 className="text-[16px] font-medium leading-[24px]">Categories</h4>
             </div>
-            {/* <ul className="flex items-center gap-6">
+            <ul className="flex items-center gap-6">
               <li><Link href="#">Electronics</Link></li>
               <li><Link href="#">Home Appliances</Link></li>
               <li><Link href="#">Mother & Baby</Link></li>
@@ -95,17 +95,17 @@ const NavBar = () => {
               <li className="flex items-center gap-1">
                 <Image src={SellIcon} alt="sell" width={14} height={14} />
                 <Link href="#">SELL WITH US</Link>
-              </li> */}
+              </li> 
 
-            {/* </ul> */}
-            <div className='flex items-center justify-center gap-10 text-[12px] cursor-pointer '>
+            </ul>
+            {/* <div className='flex items-center justify-center gap-10 text-[12px] cursor-pointer '>
         {Array.isArray(categories) &&
             categories?.map((cat) => (
               <div key={cat.id} value={cat.name}>
                 {cat.name}
               </div>
             ))}
-      </div>
+      </div> */}
           </div>
         </div>
       </Container>
